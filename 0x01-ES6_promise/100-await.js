@@ -8,7 +8,7 @@ export default async function asyncUploadUser() {
       photo,
       user,
     };
-  } catch(error) {
+  } catch (error) {
     return {
       photo: null,
       user: null,
