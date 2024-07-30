@@ -13,6 +13,5 @@ export default function createInt8TypedArray(length, position, value) {
   // Set the value at the specified position
   dataView.setInt8(position, value);
 
-  // Return the ArrayBuffer
-  return buffer;
+  return dataView;
 }
