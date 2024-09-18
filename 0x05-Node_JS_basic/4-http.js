@@ -9,3 +9,5 @@ const app = http.createServer((request, response) => {
   response.end();
 });
 app.listen(1245); // on port 1245
+
+module.exports = app;
