@@ -2,6 +2,9 @@ const fs = require('fs').promises;
 const http = require('http');
 
 const app = http.createServer((request, response) => {
+  // Set response headers for plain text content
+  response.writeHead(200, { 'Content-Type': 'text/plain' });
+
   if (request.url === '/') {
     response.write('Hello Holberton School!');
     response.end();
