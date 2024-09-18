@@ -3,9 +3,9 @@ const fs = require('fs').promises;
 function countStudents(path) {
   return fs.readFile(path, 'utf8')
     .then((data) => {
-      const lines = data.split('\n');
+      const lines = data.split('\n').filter((line) => line.trim() !== '');
 
-      const numStudents = lines.length - 2;
+      const numStudents = lines.length - 1;
       console.log(`Number of students: ${numStudents}`);
 
       const dataList = [];
@@ -27,7 +27,7 @@ function countStudents(path) {
       const fieldNames = Object.keys(fields);
       fieldNames.forEach((fieldName) => {
         const firstNames = fields[fieldName].join(', ');
-        console.log(`\nNumber of students in ${fieldName}: ${fields[fieldName].length}. List: ${firstNames}`);
+        console.log(`Number of students in ${fieldName}: ${fields[fieldName].length}. List: ${firstNames}`);
       });
     })
     .catch(() => {
