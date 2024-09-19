@@ -8,10 +8,10 @@ const app = http.createServer((request, response) => {
   if (request.url === '/') {
     response.write('Hello Holberton School!');
     response.end();
-  }
-  if (request.url === '/students') {
+  } else if (request.url === '/students') {
     response.write('This is the list of our students\n');
     const path = process.argv[2];
+
     fs.readFile(path, 'utf8')
       .then((data) => {
         const lines = data.split('\n').filter((line) => line.trim() !== '');
@@ -44,8 +44,12 @@ const app = http.createServer((request, response) => {
         response.end();
       })
       .catch(() => {
-        throw new Error('Cannot load the database');
+        response.write('Cannot load the database');
+        response.end();
       });
+  } else {
+    response.write('Invalid URL');
+    response.end();
   }
 });
 app.listen(1245);
