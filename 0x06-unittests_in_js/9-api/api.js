@@ -15,9 +15,16 @@ app.get('/', async (req, res) => {
   res.status(200).send('Welcome to the payment system');
 });
 
-// Export the app for testing
-module.exports = app;
+// New route for GET /cart/:id  -id must be a number 
+app.get('/cart/:id([0-9]+)', async (req, res) => {
+  const cartId = req.params.id;
+  res.status(200).send(`Payment methods for cart ${cartId}`)
+});
 
+// Start the server
 app.listen(PORT, () => {
   console.log(`API available on localhost port ${PORT}`);
 });
+
+// Export the app for testing
+module.exports = app;
