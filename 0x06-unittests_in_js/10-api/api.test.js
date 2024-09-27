@@ -2,9 +2,29 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const request = require('request');
 const express = require('express');
-const api = require('./api');
+const app = require('./api');
 
-describe('API_TEST', () => {
+let server;
+let port = 0; // port 0 to allow the system to assign an available port
+
+describe('Index page', () => {
+  // Start the server before all tests
+  before((done) => {
+    server = app.listen(port, () => {
+      console.log(`Server started on port ${port}`);
+      done();
+    });
+  });
+
+  // Stop the server after all tests
+  after((done) => {
+    if (server) {
+      server.close(() => {
+        console.log('Server stopped');
+        done();
+      });
+    }
+  });
   // Test if the correct status code is returned
   it('should return a 200 status code', (done) => {
     request('http://localhost:7865', (error, response, body) => {
