@@ -15,9 +15,10 @@ app.get('/', async (req, res) => {
   res.status(200).send('Welcome to the payment system');
 });
 
-// Export the app for testing
-module.exports = app;
-
+// Start server
 app.listen(PORT, () => {
   console.log(`API available on localhost port ${PORT}`);
 });
+
+// Export the app for testing
+module.exports = app;

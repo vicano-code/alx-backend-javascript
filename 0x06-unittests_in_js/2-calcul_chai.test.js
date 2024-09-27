@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const calculateNumber = require('./1-calcul');
 
-describe('calculateNumber_SUM', () => {
+describe('type=SUM', () => {
     it('should calculate the sum of two rounded numbers correctly', () => {
         expect(calculateNumber('SUM', 2.7, 3.4)).to.equal(6);
         expect(calculateNumber('SUM', -3.7, 2.1)).to.equal(-2);
@@ -32,7 +32,7 @@ describe('calculateNumber_SUM', () => {
     });
 });
 
-describe('calculateNumber_SUBTRACT', () => {
+describe('type=SUBTRACT', () => {
     it('should calculate the difference of two rounded numbers correctly', () => {
         expect(calculateNumber('SUBTRACT', 3, 2)).to.equal(1);
         expect(calculateNumber('SUBTRACT', -2.5, 2.1)).to.equal(-4);
@@ -40,11 +40,14 @@ describe('calculateNumber_SUBTRACT', () => {
     });
 });
 
-describe('calculateNumber_DIVIDE', () => {
+describe('type=DIVIDE', () => {
     it('should calculate the division of two rounded numbers correctly', () => {
         expect(calculateNumber('DIVIDE', 2.7, 3.4)).to.equal(1);
         expect(calculateNumber('DIVIDE', -4, 2.1)).to.equal(-2);
         expect(calculateNumber('DIVIDE', 0.5, 0.5)).to.equal(1);
-        expect(calculateNumber('DIVIDE', 1.4, 0)).to.equal('Error');
     });
+
+    it('should return error when denominator is 0', () => {
+        expect(calculateNumber('DIVIDE', 4, 0)).to.equal('Error')
+    })
 });
