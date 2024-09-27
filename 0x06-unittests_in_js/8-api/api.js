@@ -15,6 +15,11 @@ app.get('/', async (req, res) => {
   res.status(200).send('Welcome to the payment system');
 });
 
+// Endpoint to simulate a server error for testing
+app.get('/error', (req, res) => {
+  throw new Error('This is a simulated error'); // Trigger the error middleware
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`API available on localhost port ${PORT}`);

@@ -2,12 +2,33 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const request = require('request');
 const express = require('express');
-const api = require('./api');
+const app = require('./api');
 
-describe('API_TEST', () => {
+let server;
+let port = 0; // port 0 to allow the system to assign an available port
+
+describe('Index page', () => {
+  // Start the server before all tests
+  before((done) => {
+    server = app.listen(port, () => {
+      console.log(`Server started on port ${port}`);
+      done();
+    });
+  });
+
+  // Stop the server after all tests
+  after((done) => {
+    if (server) {
+      server.close(() => {
+        console.log('Server stopped');
+        done();
+      });
+    }
+  });
+
   // Test if the correct status code is returned
-  it('should return a 200 status code', (done) => {
-    request('http://localhost:7865', (error, response, body) => {
+  it('should return a 200 status code with welcome statement', (done) => {
+    request('http://localhost:7865/', (error, response, body) => {
       expect(response.statusCode).to.equal(200);
       expect(body).to.equal('Welcome to the payment system');
       done();
@@ -16,14 +37,14 @@ describe('API_TEST', () => {
 
   // Test if response message is correct returned
   it('should return the correct response message', (done) => {
-    request('http://localhost:7865', (error, response, body) => {
+    request('http://localhost:7865/', (error, response, body) => {
       expect(body).to.equal('Welcome to the payment system');
       done();
     });
   });
 
   // Other test: check for content type
-  it('should return HTML content', function(done) {
+  it('should return HTML content', (done) => {
     request('http://localhost:7865/', (error, response, body) => {
       expect(response.headers['content-type']).to.include('text/html');
       done();
@@ -31,7 +52,7 @@ describe('API_TEST', () => {
   });
 
   // Test if the /cart/:id endpoint works with valid numeric id
-  it('should return Payment methods for cart :id for valid cart id', function(done) {
+  it('should return Payment methods for cart :id for valid cart id', (done) => {
     request('http://localhost:7865/cart/12', (error, response, body) => {
       if (error) return done(error);
       expect(response.statusCode).to.equal(200);
@@ -42,7 +63,7 @@ describe('API_TEST', () => {
 
   // Test if /cart/:id returns 404 for invalid cart id (non-numeric id)
   it('should return 404 for non-numeric id', (done) => {
-    request('http://localhost:7865/cart/abc', function(error, response, body) {
+    request('http://localhost:7865/cart/abc', (error, response, body) => {
       if (error) return done(error);
       expect(response.statusCode).to.equal(404); // Since id must be numeric
       done();

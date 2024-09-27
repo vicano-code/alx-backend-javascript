@@ -47,7 +47,7 @@ describe('type=DIVIDE', () => {
         expect(calculateNumber('DIVIDE', 0.5, 0.5)).to.equal(1);
     });
 
-    it('should return error when denominator is 0', () => {
+    it('should return Error when denominator is 0', () => {
         expect(calculateNumber('DIVIDE', 4, 0)).to.equal('Error')
     })
 });

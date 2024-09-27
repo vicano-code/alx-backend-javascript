@@ -1,28 +1,33 @@
 const { expect } = require('chai');
-const sinon = require('sinon');
 const request = require('request');
-const express = require('express');
-
-// Import the Express app
 const app = require('./api');
 
-// Create a variable to hold the server instance
 let server;
+let port = 0; // port 0 to allow the system to assign an available port
+
+// Start the server before tests
+before((done) => {
+  server = app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
+    done();
+  });
+});
+
+/// Close the server after all tests
+after((done) => {
+  if (server) {
+    server.close(done);
+  } else {
+    done();
+  }
+});
 
 describe('Index page', () => {
   // Test if the correct status code is returned
-  it('should return a 200 status code', (done) => {
-    request('http://localhost:7865', (error, response, body) => {
+  it('should return a 200 status code with welcome statement', (done) => {
+    request('http://localhost:7865/', (error, response, body) => {
       if (error) return done(error);  // Error handling
       expect(response.statusCode).to.equal(200);
-      done();
-    });
-  });
-
-  // Test if response message is correct returned
-  it('should return the correct response message', (done) => {
-    request('http://localhost:7865', (error, response, body) => {
-      if (error) return done(error);  // Error handling
       expect(body).to.equal('Welcome to the payment system');
       done();
     });
